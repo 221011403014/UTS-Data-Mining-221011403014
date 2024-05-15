@@ -1,0 +1,122 @@
+ #Data
+company_name_list = [{'name': 'Lawson Co.'},
+          {'name': 'Inka Co.'},
+          {'name': 'K24 Co.'}]
+
+employee_name_list = [{'name': 'John Doe'},
+          {'name': 'Tom Smith'},
+          {'name': 'Andrew Sebastian'}]
+
+company_detail_list = {
+      'Lawson Co.': {
+          'name': 'Lawson Co.',
+          'domain': 'Retail',
+          'clients': [
+              {
+                  'name': 'Ryan.inc',
+                  'country': 'England'
+              },
+              {
+                  'name': 'Wahyu.co',
+                  'country': 'France'
+              }
+          ]
+      },
+      'Inka Co.': {
+          'name': 'Inka Co.',
+          'domain': 'Construction',
+          'clients': [
+              {
+                  'name': 'KAI',
+                  'country': 'Indonesia'
+              },
+              {
+                  'name': 'Japan Airlines',
+                  'country': 'japan'
+              },
+              {
+                  'name': 'Unilever',
+                  'country': 'indonesia'
+              }
+          ]
+      },
+          'K24 Co.': {
+          'name': 'K24 Co.',
+          'domain': 'Healthcare',
+          'clients': [
+              {
+                  'name': 'Petronas',
+                  'country': 'malaysia'
+              },
+              {
+                  'name': 'VW Group',
+                  'country': 'germany'
+              },
+              {
+                  'name': 'Google',
+                  'country': 'united states'
+              },
+              {
+                  'name': 'Mitsubishi',
+                  'country': 'japan'
+              }
+          ]
+      }
+  }
+
+employee_detail_list = {
+      'John Doe': {
+          'name': 'EMP-0001',
+          'first_name': 'John',
+          'last_name': 'Doe',
+          'full_name': 'John Doe',
+          'company': 'Lawson Co.'
+      },
+      'Tom Smith': {
+          'name': 'EMP-0002',
+          'first_name': 'Tom',
+          'last_name': 'Smith',
+          'full_name': 'Tom Smith',
+          'company': 'Inka Co.'
+      },
+      'Andrew Sebastian': {
+          'name': 'EMP-0003',
+          'first_name': 'Andrew',
+          'last_name': 'Sebastian',
+          'full_name': 'Andrew Sebastian',
+          'company': 'K24 Co.'
+      },
+  }
+
+# Perintah untuk mendapatkan daftar semua Perusahaan dan diurutkan berdasarkan Domain Perusahaan dalam urutan terbalik
+companies = [{'name': details['name'], 'domain': details['domain']} for details in company_detail_list.values()]
+sorted_companies = sorted(companies, key=lambda x: x['domain'], reverse=True)
+
+# Output hasil sorted companies
+print(sorted_companies)
+
+# Perintah untuk mencetak nilai domain di setiap perusahaan bersama dengan jumlah klien
+for company_name, details in company_detail_list.items():
+    domain = details['domain']
+    client_count = len(details['clients'])
+    print(f"{company_name}: {domain}, relation: {client_count} clients")
+
+# Fungsi untuk mengembalikan karyawan beserta domain perusahaan mereka
+def get_employees_with_domain(employee_list, company_details):
+    return [{'full_name': emp['full_name'], 'company': emp['company'], 'domain': company_details[emp['company']]['domain']} for emp in employee_list.values()]
+
+# Memanggil fungsi dan mencetak hasilnya
+employee_list = get_employees_with_domain(employee_detail_list, company_detail_list)
+print(employee_list)
+
+# Fungsi untuk mengembalikan daftar perusahaan beserta daftar karyawan yang bekerja di perusahaan tersebut
+def get_companies_with_employees(company_details, employee_details):
+    companies_with_employees = []
+    for company_name, company_info in company_details.items():
+        employees = [employee_info['full_name'] for employee_info in employee_details.values() if employee_info['company'] == company_name]
+        companies_with_employees.append({'company': company_name, 'employees': employees})
+    return companies_with_employees
+
+# Memanggil fungsi dan mencetak hasilnya
+companies_with_employees = get_companies_with_employees(company_detail_list, employee_detail_list)
+print(companies_with_employees)
